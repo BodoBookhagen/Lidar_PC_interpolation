@@ -93,6 +93,6 @@ Next, convert to lower resolution PDFs with GhostScript:
 
 ```bash
 gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/ebook -dNOPAUSE -dQUIET -dBATCH -sOutputFile=SCI_Pozo_interpolation_GMT_GDAL_ebook.pdf SCI_Pozo_interpolation_GMT_GDAL.pdf
+#print conversion not working with the currently included figures:
 gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/printer -dNOPAUSE -dQUIET -dBATCH -sOutputFile=SCI_Pozo_interpolation_GMT_GDAL_print.pdf SCI_Pozo_interpolation_GMT_GDAL.pdf
-rm -fr PC_geomorph_roughness_manual.pdf
 ```

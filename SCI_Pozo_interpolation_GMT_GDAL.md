@@ -18,7 +18,7 @@ footer-left: "none"
 # Preparing Point Cloud Data
 
 ## Ground classification
-The original (pre-classified) files from the USGS data / opentopography website were reclassified using LASTools [lasground](https://rapidlasso.com/lastools/lasground/). Note that this is a commercial software that requires a license. Tests indicate that ground-classification with [pdal](https://pdal.io/) and the [Progressive Morphological Filter (PMF)](Vhttps://pdal.io/stages/filters.pmf.html#filters-pmf) provides similar results. In short, the steps were:
+The original (pre-classified) files from the USGS data / opentopography website were reclassified using LASTools [lasground](https:/rapidlasso.com/lastools/lasground/). Note that this is a commercial software that requires a license. Tests indicate that ground-classification with [pdal](https:/pdal.io/) and the [Progressive Morphological Filter (PMF)](Vhttps:/pdal.io/stages/filters.pmf.html#filters-pmf) provides similar results. In short, the steps were:
 
 ```bash
 cd /raid/lidar_research/lidar_data/usgs_channel_islands/processed/SANTA_CRUZ
@@ -68,7 +68,7 @@ wine /opt/LAStools/bin/lasclip.exe -lof SCI_ground_overlap_filelist.lst -olaz -d
 conda activate PC_py3
 ```
 
-Convert ground-classified LAS/LAZ to ASCII for GMT processing and compress with `bzip2`, but using [parallel bzip2 (pbzip2)](https://linuxconfig.org/how-to-perform-a-faster-data-compression-with-pbzip2):
+Convert ground-classified LAS/LAZ to ASCII for GMT processing and compress with `bzip2`, but using [parallel bzip2 (pbzip2)](https:/linuxconfig.org/how-to-perform-a-faster-data-compression-with-pbzip2):
 
 ```bash
 wine /opt/LAStools/bin/las2las.exe -i SCI_Pozo_100m_buffer_catchment_UTM11N_NAD83_cl2.laz -o SCI_Pozo_100m_buffer_catchment_UTM11N_NAD83_cl2.xyz -oparse xyz
@@ -79,7 +79,7 @@ pbzip2 -7 SCI_Pozo_100m_buffer_catchment_UTM11N_NAD83_cl2.xyz
 ## Prepare DEM
 In order to provide best results and produce overlapping grids, you would want to clip the DEM with a shapefile - this way you ensure that all grids will have the same dimensions. You can clip every output grid with the same shapefile stored in CLIP_SHAPEFILE.
 
-We extract the subset from the interpolated DTM using [blast2dem](https://rapidlasso.com/blast/blast2dem/).
+We extract the subset from the interpolated DTM using [blast2dem](https:/rapidlasso.com/blast/blast2dem/).
 ```bash
 gdalwarp /raid-everest/lidar_research/lidar_data/usgs_channel_islands/processed/SANTA_CRUZ/cl2_july2018/dtm_interp/SCI_USGS_UTM11_NAD83_g_1m.tif dtm_interp/Pozo_USGS_UTM11_NAD83_g_1m.tif -cutline SCI_Pozo_100m_buffer_catchment_UTM11N_NAD83.shp -cl SCI_Pozo_100m_buffer_catchment_UTM11N_NAD83 -crop_to_cutline -tap -multi -tr 1 1 -t_srs epsg:26911 -co COMPRESS=DEFLATE -co ZLEVEL=7
 ```
@@ -106,12 +106,12 @@ The output figures are stored in the subfolder `figures` and is shown in Figure 
 
 ![Map view of the Pozo catchment and the zoom-in area in the central part of the catchment.\label{DEM:overview}](/raid-cachi/bodo/Dropbox/California/SCI/Pozo/pc_interpolation/figures/Pozo_catchment_topo_overview_zoom_map.png)
 
-# Interpolation of grids with [GMT](http://gmt.soest.hawaii.edu/) and [gdal_grid](https://www.gdal.org/gdal_grid.html)
+# Interpolation of grids with [GMT](http:/gmt.soest.hawaii.edu/) and [gdal_grid](https:/www.gdal.org/gdal_grid.html)
 
 ## Interpolate with GMT 6
-[GMT6](http://gmt.soest.hawaii.edu/doc/latest/GMT_Docs.html) has useful interpolation routines with additional output options as compared to GMT5. In addition, you could call these routines directly from Python (not shown in this manual).
+[GMT6](http:/gmt.soest.hawaii.edu/doc/latest/GMT_Docs.html) has useful interpolation routines with additional output options as compared to GMT5. In addition, you could call these routines directly from Python (not shown in this manual).
 
-GMT6 either has to be compiled from source or installed via anaconda/miniconda. Here, we use [miniconda](https://docs.conda.io/en/latest/miniconda.html):
+GMT6 either has to be compiled from source or installed via anaconda/miniconda. Here, we use [miniconda](https:/docs.conda.io/en/latest/miniconda.html):
 ```bash
 conda config --prepend channels conda-forge/label/dev
 conda create -y -c conda-forge/label/cf201901 -n gmt6 gmt=6* python=3* scipy pandas numpy matplotlib scikit-image gdal spyder
@@ -133,7 +133,7 @@ gmt grdconvert $DEM_GRID=gd/1/0/-9999 $DATA_BASEDIR/dtm_interp/Pozo_USGS_UTM11_N
 ```
 
 ### GMT blockmean
-See [http://gmt.soest.hawaii.edu/doc/5.3.2/blockmean.html](http://gmt.soest.hawaii.edu/doc/5.3.2/blockmean.html)
+See [http:/gmt.soest.hawaii.edu/doc/5.3.2/blockmean.html](http:/gmt.soest.hawaii.edu/doc/5.3.2/blockmean.html)
 
 ```bash
 mkdir $DATA_BASEDIR/blockmean
@@ -152,13 +152,13 @@ gdal_translate -of GTIFF SCI_Pozo_100m_buffer_catchment_UTM11N_NAD83_cl2.xyz_blo
 cd ..
 ```
 
-A map of the `gmt blockmean` data is generated with [gmt5](http://gmt.soest.hawaii.edu/). See the script in the section GMT5 as an example with an output shown in Figures \ref{gmt:blockmean} and combined with blockmedian in Figure \ref{gmt:blockmean_blockmedian}.
+A map of the `gmt blockmean` data is generated with [gmt5](http:/gmt.soest.hawaii.edu/). See the script in the section GMT5 as an example with an output shown in Figures \ref{gmt:blockmean} and combined with blockmedian in Figure \ref{gmt:blockmean_blockmedian}.
 
 ![Map view of the LAStools-triangulated minus gmt:blockmean interpolation of the zoomed-in part of the Pozo catchment\label{gmt:blockmean}](/raid-cachi/bodo/Dropbox/California/SCI/Pozo/pc_interpolation/figures/Pozo_catchment_zoom_D_blockmean.png)
 
 
 ### GMT blockmedian
-[http://gmt.soest.hawaii.edu/doc/5.3.2/blockmedian.html](http://gmt.soest.hawaii.edu/doc/5.3.2/blockmedian.html)
+[http:/gmt.soest.hawaii.edu/doc/5.3.2/blockmedian.html](http:/gmt.soest.hawaii.edu/doc/5.3.2/blockmedian.html)
 
 ```bash
 cd $DATA_BASEDIR/
@@ -190,7 +190,7 @@ The gmt:blockmean and gmt:blockmedian interpolated map (see Figure \ref{gmt:bloc
 **Not working yet, takes a long time for large points**
 
 Greenspline uses the Green’s function G(x; x’) for the chosen spline and geometry to interpolate data at regular [or arbitrary] output locations.
-See [http://gmt.soest.hawaii.edu/doc/latest/greenspline.html](http://gmt.soest.hawaii.edu/doc/latest/greenspline.html) for more information.
+See [http:/gmt.soest.hawaii.edu/doc/latest/greenspline.html](http:/gmt.soest.hawaii.edu/doc/latest/greenspline.html) for more information.
 Here, we use a minimum curvature spline (`-Sc`) and continuos curvature spline (`-St0.3`) and we only retain the largest eigenvalue when solving the linear system for the spline coefficients by SVD (`-Cn`).
 
 ```bash
@@ -208,7 +208,7 @@ pbzip2 -dc SCI_Pozo_100m_buffer_catchment_UTM11N_NAD83_cl2.xyz.bz2 | gmt greensp
 ```
 
 ### GMT Triangulate
-Uses Delauny Triangulation Delaunay, i.e., the algorithm finds how the points should be connected to give the most equilateral triangulation possible. For more information see [http://gmt.soest.hawaii.edu/doc/latest/triangulate.html](http://gmt.soest.hawaii.edu/doc/latest/triangulate.html). This is very similar to the interpolation performed by [blast2dem](https://rapidlasso.com/blast/blast2dem/).  The actual algorithm used in the triangulations is that of Watson [1982].
+Uses Delauny Triangulation Delaunay, i.e., the algorithm finds how the points should be connected to give the most equilateral triangulation possible. For more information see [http:/gmt.soest.hawaii.edu/doc/latest/triangulate.html](http:/gmt.soest.hawaii.edu/doc/latest/triangulate.html). This is very similar to the interpolation performed by [blast2dem](https:/rapidlasso.com/blast/blast2dem/).  The actual algorithm used in the triangulations is that of Watson [1982].
 
 
 ```bash
@@ -235,7 +235,7 @@ The DEM difference gmt:triangulation interpolated map (see Figure \ref{gmt:trian
 
 
 ### GMT Surface
-Gridding points using adjustable tension continuous curvature splines. Surface reads randomly-spaced (x,y,z) triples from standard input [or table] and produces a binary grid file of gridded values z(x,y) by solving: (1 - T) * L (L (z)) + T * L (z) = 0, where T is a tension factor between 0 and 1, and L indicates the Laplacian operator. For more information see [http://gmt.soest.hawaii.edu/doc/latest/surface.html](http://gmt.soest.hawaii.edu/doc/latest/surface.html). Here
+Gridding points using adjustable tension continuous curvature splines. Surface reads randomly-spaced (x,y,z) triples from standard input [or table] and produces a binary grid file of gridded values z(x,y) by solving: (1 - T) * L (L (z)) + T * L (z) = 0, where T is a tension factor between 0 and 1, and L indicates the Laplacian operator. For more information see [http:/gmt.soest.hawaii.edu/doc/latest/surface.html](http:/gmt.soest.hawaii.edu/doc/latest/surface.html). Here
 
 ```bash
 cd $DATA_BASEDIR/
@@ -278,7 +278,7 @@ The DEM difference of surface tension of the Pozo catchment and the area of inte
 ### GMT NearestNeighbor interpolation
 **This is currently not working**
 
-[http://gmt.soest.hawaii.edu/doc/latest/nearneighbor.html](http://gmt.soest.hawaii.edu/doc/latest/nearneighbor.html)
+[http:/gmt.soest.hawaii.edu/doc/latest/nearneighbor.html](http:/gmt.soest.hawaii.edu/doc/latest/nearneighbor.html)
 
 The average value is computed as a weighted mean of the nearest point from each sector inside the search radius. The weighting function used is w(r) = 1 / (1 + d ^ 2), where d = 3 * r / search_radius and r is distance from the node. Distances (-S) are grid-cell size * sqrt(2) / 2 (`-S0.707e`):
 
@@ -302,9 +302,9 @@ cd ..
 ```
 
 
-## Interpolate with [gdal_grid](https://www.gdal.org/gdal_grid.html)
-### NearestNeighbor interpolation using [gdal_grid](https://www.gdal.org/gdal_grid.html)
-The above described approach with gmt does not appear to work well. Better to use a [gdal_grid](https://www.gdal.org/gdal_grid.html) with `gdal_grid nearest` approach:
+## Interpolate with [gdal_grid](https:/www.gdal.org/gdal_grid.html)
+### NearestNeighbor interpolation using [gdal_grid](https:/www.gdal.org/gdal_grid.html)
+The above described approach with gmt does not appear to work well. Better to use a [gdal_grid](https:/www.gdal.org/gdal_grid.html) with `gdal_grid nearest` approach:
 
 First, you have to set the variables for import/export from gdal:
 ```bash
@@ -383,8 +383,8 @@ If needed, one can convert to NetCDF GMT grid:
 gmt grdconvert ${NEARNEIGHBOR_GRID::-4}_c.tif=gd/1/0/-9999 ${NEARNEIGHBOR_GRID}.nc
 ```
 
-### Interpolate IDW using [gdal_grid](https://www.gdal.org/gdal_grid.html)
-Interpolate using [gdal_grid](https://www.gdal.org/gdal_grid.html) with `gdal_grid invdistnn`. For details see section "NearestNeighbor interpolation using gdal_grid".
+### Interpolate IDW using [gdal_grid](https:/www.gdal.org/gdal_grid.html)
+Interpolate using [gdal_grid](https:/www.gdal.org/gdal_grid.html) with `gdal_grid invdistnn`. For details see section "NearestNeighbor interpolation using gdal_grid".
 
 Here, we assume there exists already a CSV and VRT file:
 
@@ -423,7 +423,7 @@ gmt grdconvert ${IDW_GRID::-4}_c.tif=gd/1/0/-9999 ${IDW_GRID::-4}_c.nc
 Speeding up processing, option #1: Use a maximum point number 24 (adjust this for larger radii):
 ```bash
 IDW_GRID=$DATA_BASEDIR/idw/SCI_Pozo_100m_buffer_catchment_UTM11N_NAD83_cl2.xyz_idwp2_invdist_1m.tif
-export CLIP_SHAPEFILE=/home/bodo//Dropbox/California/SCI/SCI_Pozo_100m_buffer_catchment_UTM11N_NAD83.shp
+export CLIP_SHAPEFILE=/home/bodo/Dropbox/California/SCI/SCI_Pozo_100m_buffer_catchment_UTM11N_NAD83.shp
 gdal_grid -clipsrc $CLIP_SHAPEFILE -cl SCI_Pozo_100m_buffer_catchment_UTM11N_NAD83 -zfield "z" -a invdist:power=2.0:smoothin=0.0:radius1=$R_M:radius2=$R_M:min_points=3:max_points=24:nodata=-9999 -txe $boundsx -tye $boundsyr -outsize $nx $ny -of GTiff -ot Float32 -l ${PC_IN} ${PC_IN}.vrt ${IDW_GRID} -co COMPRESS=DEFLATE -co ZLEVEL=7 --config GDAL_NUM_THREADS ALL_CPUS --config GDAL_CACHEMAX 2000
 ```
 
@@ -438,21 +438,21 @@ Speeding up processing, option #2: Use a maximum point number and the `invdistnn
 ```bash
 #Power = 1
 IDW_GRID=$DATA_BASEDIR/idw/SCI_Pozo_100m_buffer_catchment_UTM11N_NAD83_cl2.xyz_idwp1_invdistnn_1m.tif
-export CLIP_SHAPEFILE=/home/bodo//Dropbox/California/SCI/SCI_Pozo_100m_buffer_catchment_UTM11N_NAD83.shp
+export CLIP_SHAPEFILE=/home/bodo/Dropbox/California/SCI/SCI_Pozo_100m_buffer_catchment_UTM11N_NAD83.shp
 gdal_grid -zfield "z" -a invdistnn:power=1.0:smoothin=0.0:radius=$R_M:min_points=3:max_points=24:nodata=-9999 -txe $boundsx -tye $boundsyr -outsize $nx $ny -of GTiff -ot Float32 -l ${PC_IN} ${PC_IN}.vrt ${IDW_GRID} -co COMPRESS=DEFLATE -co ZLEVEL=7 --config GDAL_NUM_THREADS ALL_CPUS --config GDAL_CACHEMAX 2000
 gdalwarp -cutline $CLIP_SHAPEFILE -cl SCI_Pozo_100m_buffer_catchment_UTM11N_NAD83 -crop_to_cutline -tap -multi -tr 1 1 -t_srs epsg:26911 $IDW_GRID ${IDW_GRID::-4}_c.tif -co COMPRESS=DEFLATE -co ZLEVEL=7
 gmt grdconvert ${IDW_GRID::-4}_c.tif=gd/1/0/-9999 ${IDW_GRID::-4}_c.nc
 
 #Power = 2
 IDW_GRID=$DATA_BASEDIR/idw/SCI_Pozo_100m_buffer_catchment_UTM11N_NAD83_cl2.xyz_idwp2_invdistnn_1m.tif
-export CLIP_SHAPEFILE=/home/bodo//Dropbox/California/SCI/SCI_Pozo_100m_buffer_catchment_UTM11N_NAD83.shp
+export CLIP_SHAPEFILE=/home/bodo/Dropbox/California/SCI/SCI_Pozo_100m_buffer_catchment_UTM11N_NAD83.shp
 gdal_grid -zfield "z" -a invdistnn:power=2.0:smoothin=0.0:radius=$R_M:min_points=3:max_points=24:nodata=-9999 -txe $boundsx -tye $boundsyr -outsize $nx $ny -of GTiff -ot Float32 -l ${PC_IN} ${PC_IN}.vrt ${IDW_GRID} -co COMPRESS=DEFLATE -co ZLEVEL=7 --config GDAL_NUM_THREADS ALL_CPUS --config GDAL_CACHEMAX 2000
 gdalwarp -cutline $CLIP_SHAPEFILE -cl SCI_Pozo_100m_buffer_catchment_UTM11N_NAD83 -crop_to_cutline -tap -multi -tr 1 1 -t_srs epsg:26911 $IDW_GRID ${IDW_GRID::-4}_c.tif -co COMPRESS=DEFLATE -co ZLEVEL=7
 gmt grdconvert ${IDW_GRID::-4}_c.tif=gd/1/0/-9999 ${IDW_GRID::-4}_c.nc
 
 #Power = 3
 IDW_GRID=$DATA_BASEDIR/idw/SCI_Pozo_100m_buffer_catchment_UTM11N_NAD83_cl2.xyz_idwp3_invdistnn_1m.tif
-export CLIP_SHAPEFILE=/home/bodo//Dropbox/California/SCI/SCI_Pozo_100m_buffer_catchment_UTM11N_NAD83.shp
+export CLIP_SHAPEFILE=/home/bodo/Dropbox/California/SCI/SCI_Pozo_100m_buffer_catchment_UTM11N_NAD83.shp
 gdal_grid -zfield "z" -a invdistnn:power=3.0:smoothin=0.0:radius=$R_M:min_points=3:max_points=24:nodata=-9999 -txe $boundsx -tye $boundsyr -outsize $nx $ny -of GTiff -ot Float32 -l ${PC_IN} ${PC_IN}.vrt ${IDW_GRID} -co COMPRESS=DEFLATE -co ZLEVEL=7 --config GDAL_NUM_THREADS ALL_CPUS --config GDAL_CACHEMAX 2000
 gdalwarp -cutline $CLIP_SHAPEFILE -cl SCI_Pozo_100m_buffer_catchment_UTM11N_NAD83 -crop_to_cutline -tap -multi -tr 1 1 -t_srs epsg:26911 $IDW_GRID ${IDW_GRID::-4}_c.tif -co COMPRESS=DEFLATE -co ZLEVEL=7
 gmt grdconvert ${IDW_GRID::-4}_c.tif=gd/1/0/-9999 ${IDW_GRID::-4}_c.nc
@@ -484,21 +484,21 @@ R_M=1.414
 
 #Power = 1
 IDW_GRID=$DATA_BASEDIR/idw/SCI_Pozo_100m_buffer_catchment_UTM11N_NAD83_cl2.xyz_idwp1r1.414_invdistnn_1m.tif
-export CLIP_SHAPEFILE=/home/bodo//Dropbox/California/SCI/SCI_Pozo_100m_buffer_catchment_UTM11N_NAD83.shp
+export CLIP_SHAPEFILE=/home/bodo/Dropbox/California/SCI/SCI_Pozo_100m_buffer_catchment_UTM11N_NAD83.shp
 gdal_grid -zfield "z" -a invdistnn:power=1.0:smoothin=0.0:radius=$R_M:min_points=3:max_points=48:nodata=-9999 -txe $boundsx -tye $boundsyr -outsize $nx $ny -of GTiff -ot Float32 -l ${PC_IN} ${PC_IN}.vrt ${IDW_GRID} -co COMPRESS=DEFLATE -co ZLEVEL=7 --config GDAL_NUM_THREADS ALL_CPUS --config GDAL_CACHEMAX 2000
 gdalwarp -cutline $CLIP_SHAPEFILE -cl SCI_Pozo_100m_buffer_catchment_UTM11N_NAD83 -crop_to_cutline -tap -multi -tr 1 1 -t_srs epsg:26911 $IDW_GRID ${IDW_GRID::-4}_c.tif -co COMPRESS=DEFLATE -co ZLEVEL=7
 gmt grdconvert ${IDW_GRID::-4}_c.tif=gd/1/0/-9999 ${IDW_GRID::-4}_c.nc
 
 #Power = 2
 IDW_GRID=$DATA_BASEDIR/idw/SCI_Pozo_100m_buffer_catchment_UTM11N_NAD83_cl2.xyz_idwp2r1.414_invdistnn_1m.tif
-export CLIP_SHAPEFILE=/home/bodo//Dropbox/California/SCI/SCI_Pozo_100m_buffer_catchment_UTM11N_NAD83.shp
+export CLIP_SHAPEFILE=/home/bodo/Dropbox/California/SCI/SCI_Pozo_100m_buffer_catchment_UTM11N_NAD83.shp
 gdal_grid -zfield "z" -a invdistnn:power=2.0:smoothin=0.0:radius=$R_M:min_points=3:max_points=48:nodata=-9999 -txe $boundsx -tye $boundsyr -outsize $nx $ny -of GTiff -ot Float32 -l ${PC_IN} ${PC_IN}.vrt ${IDW_GRID} -co COMPRESS=DEFLATE -co ZLEVEL=7 --config GDAL_NUM_THREADS ALL_CPUS --config GDAL_CACHEMAX 2000
 gdalwarp -cutline $CLIP_SHAPEFILE -cl SCI_Pozo_100m_buffer_catchment_UTM11N_NAD83 -crop_to_cutline -tap -multi -tr 1 1 -t_srs epsg:26911 $IDW_GRID ${IDW_GRID::-4}_c.tif -co COMPRESS=DEFLATE -co ZLEVEL=7
 gmt grdconvert ${IDW_GRID::-4}_c.tif=gd/1/0/-9999 ${IDW_GRID::-4}_c.nc
 
 #Power = 3
 IDW_GRID=$DATA_BASEDIR/idw/SCI_Pozo_100m_buffer_catchment_UTM11N_NAD83_cl2.xyz_idwp3r1.414_invdistnn_1m.tif
-export CLIP_SHAPEFILE=/home/bodo//Dropbox/California/SCI/SCI_Pozo_100m_buffer_catchment_UTM11N_NAD83.shp
+export CLIP_SHAPEFILE=/home/bodo/Dropbox/California/SCI/SCI_Pozo_100m_buffer_catchment_UTM11N_NAD83.shp
 gdal_grid -zfield "z" -a invdistnn:power=3.0:smoothin=0.0:radius=$R_M:min_points=3:max_points=48:nodata=-9999 -txe $boundsx -tye $boundsyr -outsize $nx $ny -of GTiff -ot Float32 -l ${PC_IN} ${PC_IN}.vrt ${IDW_GRID} -co COMPRESS=DEFLATE -co ZLEVEL=7 --config GDAL_NUM_THREADS ALL_CPUS --config GDAL_CACHEMAX 2000
 gdalwarp -cutline $CLIP_SHAPEFILE -cl SCI_Pozo_100m_buffer_catchment_UTM11N_NAD83 -crop_to_cutline -tap -multi -tr 1 1 -t_srs epsg:26911 $IDW_GRID ${IDW_GRID::-4}_c.tif -co COMPRESS=DEFLATE -co ZLEVEL=7
 gmt grdconvert ${IDW_GRID::-4}_c.tif=gd/1/0/-9999 ${IDW_GRID::-4}_c.nc
@@ -528,21 +528,21 @@ R_M=2.828
 
 #Power = 1
 IDW_GRID=$DATA_BASEDIR/idw/SCI_Pozo_100m_buffer_catchment_UTM11N_NAD83_cl2.xyz_idwp1r2.828_invdistnn_1m.tif
-export CLIP_SHAPEFILE=/home/bodo//Dropbox/California/SCI/SCI_Pozo_100m_buffer_catchment_UTM11N_NAD83.shp
+export CLIP_SHAPEFILE=/home/bodo/Dropbox/California/SCI/SCI_Pozo_100m_buffer_catchment_UTM11N_NAD83.shp
 gdal_grid -zfield "z" -a invdistnn:power=1.0:smoothin=0.0:radius=$R_M:min_points=3:max_points=96:nodata=-9999 -txe $boundsx -tye $boundsyr -outsize $nx $ny -of GTiff -ot Float32 -l ${PC_IN} ${PC_IN}.vrt ${IDW_GRID} -co COMPRESS=DEFLATE -co ZLEVEL=7 --config GDAL_NUM_THREADS ALL_CPUS --config GDAL_CACHEMAX 2000
 gdalwarp -cutline $CLIP_SHAPEFILE -cl SCI_Pozo_100m_buffer_catchment_UTM11N_NAD83 -crop_to_cutline -tap -multi -tr 1 1 -t_srs epsg:26911 $IDW_GRID ${IDW_GRID::-4}_c.tif -co COMPRESS=DEFLATE -co ZLEVEL=7
 gmt grdconvert ${IDW_GRID::-4}_c.tif=gd/1/0/-9999 ${IDW_GRID::-4}_c.nc
 
 #Power = 2
 IDW_GRID=$DATA_BASEDIR/idw/SCI_Pozo_100m_buffer_catchment_UTM11N_NAD83_cl2.xyz_idwp2r2.828_invdistnn_1m.tif
-export CLIP_SHAPEFILE=/home/bodo//Dropbox/California/SCI/SCI_Pozo_100m_buffer_catchment_UTM11N_NAD83.shp
+export CLIP_SHAPEFILE=/home/bodo/Dropbox/California/SCI/SCI_Pozo_100m_buffer_catchment_UTM11N_NAD83.shp
 gdal_grid -zfield "z" -a invdistnn:power=2.0:smoothin=0.0:radius=$R_M:min_points=3:max_points=96:nodata=-9999 -txe $boundsx -tye $boundsyr -outsize $nx $ny -of GTiff -ot Float32 -l ${PC_IN} ${PC_IN}.vrt ${IDW_GRID} -co COMPRESS=DEFLATE -co ZLEVEL=7 --config GDAL_NUM_THREADS ALL_CPUS --config GDAL_CACHEMAX 2000
 gdalwarp -cutline $CLIP_SHAPEFILE -cl SCI_Pozo_100m_buffer_catchment_UTM11N_NAD83 -crop_to_cutline -tap -multi -tr 1 1 -t_srs epsg:26911 $IDW_GRID ${IDW_GRID::-4}_c.tif -co COMPRESS=DEFLATE -co ZLEVEL=7
 gmt grdconvert ${IDW_GRID::-4}_c.tif=gd/1/0/-9999 ${IDW_GRID::-4}_c.nc
 
 #Power = 3
 IDW_GRID=$DATA_BASEDIR/idw/SCI_Pozo_100m_buffer_catchment_UTM11N_NAD83_cl2.xyz_idwp3r2.828_invdistnn_1m.tif
-export CLIP_SHAPEFILE=/home/bodo//Dropbox/California/SCI/SCI_Pozo_100m_buffer_catchment_UTM11N_NAD83.shp
+export CLIP_SHAPEFILE=/home/bodo/Dropbox/California/SCI/SCI_Pozo_100m_buffer_catchment_UTM11N_NAD83.shp
 gdal_grid -zfield "z" -a invdistnn:power=3.0:smoothin=0.0:radius=$R_M:min_points=3:max_points=96:nodata=-9999 -txe $boundsx -tye $boundsyr -outsize $nx $ny -of GTiff -ot Float32 -l ${PC_IN} ${PC_IN}.vrt ${IDW_GRID} -co COMPRESS=DEFLATE -co ZLEVEL=7 --config GDAL_NUM_THREADS ALL_CPUS --config GDAL_CACHEMAX 2000
 gdalwarp -cutline $CLIP_SHAPEFILE -cl SCI_Pozo_100m_buffer_catchment_UTM11N_NAD83 -crop_to_cutline -tap -multi -tr 1 1 -t_srs epsg:26911 $IDW_GRID ${IDW_GRID::-4}_c.tif -co COMPRESS=DEFLATE -co ZLEVEL=7
 gmt grdconvert ${IDW_GRID::-4}_c.tif=gd/1/0/-9999 ${IDW_GRID::-4}_c.nc
@@ -562,14 +562,14 @@ In addition to the above example, we explore the smoothing parameter and its eff
 ```bash
 #Power = 1 and Smoothing = 1
 IDW_GRID=$DATA_BASEDIR/idw/SCI_Pozo_100m_buffer_catchment_UTM11N_NAD83_cl2.xyz_idwp1s1_invdistnn_1m.tif
-export CLIP_SHAPEFILE=/home/bodo//Dropbox/California/SCI/SCI_Pozo_100m_buffer_catchment_UTM11N_NAD83.shp
+export CLIP_SHAPEFILE=/home/bodo/Dropbox/California/SCI/SCI_Pozo_100m_buffer_catchment_UTM11N_NAD83.shp
 gdal_grid -zfield "z" -a invdistnn:power=1.0:smoothin=1.0:radius=$R_M:min_points=3:max_points=24:nodata=-9999 -txe $boundsx -tye $boundsyr -outsize $nx $ny -of GTiff -ot Float32 -l ${PC_IN} ${PC_IN}.vrt ${IDW_GRID} -co COMPRESS=DEFLATE -co ZLEVEL=7 --config GDAL_NUM_THREADS ALL_CPUS --config GDAL_CACHEMAX 2000
 gdalwarp -cutline $CLIP_SHAPEFILE -cl SCI_Pozo_100m_buffer_catchment_UTM11N_NAD83 -crop_to_cutline -tap -multi -tr 1 1 -t_srs epsg:26911 $IDW_GRID ${IDW_GRID::-4}_c.tif -co COMPRESS=DEFLATE -co ZLEVEL=7
 gmt grdconvert ${IDW_GRID::-4}_c.tif=gd/1/0/-9999 ${IDW_GRID::-4}_c.nc
 
 #Power = 1 and Smoothing = 2
 IDW_GRID=$DATA_BASEDIR/idw/SCI_Pozo_100m_buffer_catchment_UTM11N_NAD83_cl2.xyz_idwp1s2_invdistnn_1m.tif
-export CLIP_SHAPEFILE=/home/bodo//Dropbox/California/SCI/SCI_Pozo_100m_buffer_catchment_UTM11N_NAD83.shp
+export CLIP_SHAPEFILE=/home/bodo/Dropbox/California/SCI/SCI_Pozo_100m_buffer_catchment_UTM11N_NAD83.shp
 gdal_grid -zfield "z" -a invdistnn:power=1.0:smoothin=2.0:radius=$R_M:min_points=3:max_points=24:nodata=-9999 -txe $boundsx -tye $boundsyr -outsize $nx $ny -of GTiff -ot Float32 -l ${PC_IN} ${PC_IN}.vrt ${IDW_GRID} -co COMPRESS=DEFLATE -co ZLEVEL=7 --config GDAL_NUM_THREADS ALL_CPUS --config GDAL_CACHEMAX 2000
 gdalwarp -cutline $CLIP_SHAPEFILE -cl SCI_Pozo_100m_buffer_catchment_UTM11N_NAD83 -crop_to_cutline -tap -multi -tr 1 1 -t_srs epsg:26911 $IDW_GRID ${IDW_GRID::-4}_c.tif -co COMPRESS=DEFLATE -co ZLEVEL=7
 gmt grdconvert ${IDW_GRID::-4}_c.tif=gd/1/0/-9999 ${IDW_GRID::-4}_c.nc
@@ -581,10 +581,10 @@ The comparison of smoothing is shown versus the main DEM (Figure \ref{gmt:gdalid
 
 ![Map view of the DEM interpolated with gdal_grid:idw (power=1, smoothing=0) minus gdal_grid:idw (power=1, smoothing=1 and smoothing=2).\label{gmt:gdalidw_p1s0_minus_s12}](/raid-cachi/bodo/Dropbox/California/SCI/Pozo/pc_interpolation/figures/Pozo_catchment_zoom_D_idwP1S0_minus_idwP1S1_idwP1S2.png)
 
-The generation of this maps is shown in GMT5 script [gmt5_map_scripts/SCI_Pozo_interpolation_GMT5_plot_DEM_diff_IDW.sh](gmt5_map_scripts/SCI_Pozo_interpolation_GMT5_plot_DEM_diff_IDW.sh).
+The generation of this maps is shown in GMT5 script [gmt5_map_scripts/SCI_Pozo_interpolation_GMT5_plot_DEM_diff_IDW.sh](https://raw.githubusercontent.com/BodoBookhagen/Lidar_PC_interpolation/master/gmt5_map_scripts/SCI_Pozo_interpolation_GMT5_plot_DEM_diff_IDW.sh) (see also the Table in the last section).
 
-### IDW Interpolation via [pdal](https://pdal.io/) with writers.gdal
-This uses [writers.gdal](https://pdal.io/stages/writers.gdal.html) following the [Points2Grid](https://opentopography.org/otsoftware/points2grid) approach. We set the radius to resolution * sqrt(2) / 2 (0.707 m) to generate comparable results to the `gdal_grid` approach described above.
+### IDW Interpolation via [pdal](https:/pdal.io/) with writers.gdal
+This uses [writers.gdal](https:/pdal.io/stages/writers.gdal.html) following the [Points2Grid](https:/opentopography.org/otsoftware/points2grid) approach. We set the radius to resolution * sqrt(2) / 2 (0.707 m) to generate comparable results to the `gdal_grid` approach described above.
 
 **Note that this implementation of points2grid uses a 3x3 moving window to fill in voids/NaNs and thus does not have NaN cells as the `gdal_grid` approach described above.**
 
@@ -647,17 +647,20 @@ The DEM difference of pdal:Points2Grid of the Pozo catchment and the area of int
 ![Map view of the gdal_grid:IDW (power=1, smoothing=0) minus pdal:Points2Grid interpolation for the Pozo zoom-in area.\label{gmt:idwP1S0_minus_pdalidw}](/raid-cachi/bodo/Dropbox/California/SCI/Pozo/pc_interpolation/figures/Pozo_catchment_zoom_D_idwP1S0_minus_idwpoint2grid.png)
 
 # Plot with GMT5
-Below, we provide a simple [GMT](http://gmt.soest.hawaii.edu/) Version 5 (GMT5) shell script to plot the DEM difference data. There are several GMT5 scripts for different purposes.
+Below, we provide a simple [GMT](http:/gmt.soest.hawaii.edu/) Version 5 (GMT5) shell script to plot the DEM difference data. There are several GMT5 scripts for different purposes.
 
 |GMT5 Script and Link | Purpose | Output Map |
 |:--- | --- | --- |
-[SCI_Pozo_interpolation_GMT5_plot_DEM_overview_zoom.sh](gmt5_map_scripts/SCI_Pozo_interpolation_GMT5_plot_DEM_overview_zoom.sh) | Plot Pozo overview DEM and zoom-in area | Figure \ref{DEM:} |
-[SCI_Pozo_interpolation_GMT5_plot_DEM_diff_blockmean_blockmedian.sh](gmt5_map_scripts/) | | Figure \ref{DEM:} |
-[SCI_Pozo_interpolation_GMT5_plot_DEM_diff_surfacetension.sh](gmt5_map_scripts/) | | Figure \ref{DEM:} |
-[SCI_Pozo_interpolation_GMT5_plot_DEM_diff_IDW.sh](gmt5_map_scripts/) | | Figure \ref{DEM:} |
-[SCI_Pozo_interpolation_GMT5_plot_DEM_diff_nearneighbor.sh](gmt5_map_scripts/) | | Figure \ref{DEM:} |
-[SCI_Pozo_interpolation_GMT5_plot_DEM_diff_triangulation.sh](gmt5_map_scripts/) | | Figure \ref{DEM:} |
+[SCI_Pozo_interpolation_GMT5_plot_DEM_overview_zoom.sh](https://raw.githubusercontent.com/BodoBookhagen/Lidar_PC_interpolation/master/gmt5_map_scripts/SCI_Pozo_interpolation_GMT5_plot_DEM_overview_zoom.sh) | Plot Pozo overview DEM and zoom-in area | Figure \ref{DEM:overview} |
+[SCI_Pozo_interpolation_GMT5_plot_DEM_diff_blockmean_blockmedian.sh](https://raw.githubusercontent.com/BodoBookhagen/Lidar_PC_interpolation/master/gmt5_map_scripts/SCI_Pozo_interpolation_GMT5_plot_DEM_diff_blockmean_blockmedian.sh) | | Figures \ref{gmt:blockmean} and \ref{gmt:blockmedian} |
+[SCI_Pozo_interpolation_GMT5_plot_DEM_diff_surfacetension.sh](https://raw.githubusercontent.com/BodoBookhagen/Lidar_PC_interpolation/master/gmt5_map_scripts/SCI_Pozo_interpolation_GMT5_plot_DEM_diff_surfacetension.sh) | | Figure \ref{gmt:surfacetensions} |
+[SCI_Pozo_interpolation_GMT5_plot_DEM_diff_IDW.sh](https://raw.githubusercontent.com/BodoBookhagen/Lidar_PC_interpolation/master/gmt5_map_scripts/SCI_Pozo_interpolation_GMT5_plot_DEM_diff_IDW.sh) | | Figures \ref{gmt:gdalidw}, \ref{gmt:pdalidw}, \ref{gdalidw_p1s0123r1414}, \ref{gmt:gdalidw_p1s0123r2828}, \ref{gmt:gdalidw_p1s0123r070mr1414mr2828}, \ref{gdalidw_p1s0123r070mr1414m}, \ref{gmt:gdalidw_p1s0123}, \ref{gmt:gdalidw_p1s0_minus_s12} |
+[SCI_Pozo_interpolation_GMT5_plot_DEM_diff_nearneighbor.sh](https://raw.githubusercontent.com/BodoBookhagen/Lidar_PC_interpolation/master/gmt5_map_scripts/SCI_Pozo_interpolation_GMT5_plot_DEM_diff_nearneighbor.sh) | | Figure *note done yet* |
+[SCI_Pozo_interpolation_GMT5_plot_DEM_diff_triangulation.sh](https://raw.githubusercontent.com/BodoBookhagen/Lidar_PC_interpolation/master/gmt5_map_scripts/SCI_Pozo_interpolation_GMT5_plot_DEM_diff_triangulation.sh) | | Figure \ref{gmt:triangulation} |
 
-The GMT5 script for plotting the DEM and overview is shown here:
+
+As an example, the GMT5 script for plotting the DEM and overview is shown here:
 ```{.bash include=gmt5_map_scripts/SCI_Pozo_interpolation_GMT5_plot_DEM_overview_zoom.sh}
 ```
+
+

@@ -86,4 +86,4 @@ gmt psbasemap -R -J -O -K -B+t"$TITLE" --FONT_ANNOT_PRIMARY=9p -LjRB+c19:23N+f+w
 gmt psscale -R$OVERVIEW_REGION -V -J -DjTRC+o1.5c/0.3c/+w6c/0.3c+h -C$CPT -I -F+gwhite+r1p+pthin,black -Bx1.0 -By+lMeter --FONT=10p --FONT_ANNOT_PRIMARY=10p -O -K >> $POSTSCRIPT12
 convert -rotate 90 -quality 100 -density 300 -flatten -fuzz 1% -trim +repage $POSTSCRIPT12 ${POSTSCRIPT12::-3}.png
 
-convert -quality 100 -density 300 figures/Pozo_catchment_zoom_D_triangulation_IDW.png figures/Pozo_catchment_zoom_D_IDWP2_IDWP3b.png -append figures/Pozo_catchment_zoom_D_triangulation_triangulation_IDW_IDWP2_IDWP3.png
+convert -quality 100 -density 300 figures/Pozo_catchment_zoom_D_triangulation_IDW.png figures/Pozo_catchment_zoom_D_IDWP2_IDWP3b.png -splice 0x25 -background "#ffffff"  -append figures/Pozo_catchment_zoom_D_triangulation_triangulation_IDW_IDWP2_IDWP3.png

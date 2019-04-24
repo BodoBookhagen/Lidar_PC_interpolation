@@ -87,4 +87,4 @@ gmt psscale -R$OVERVIEW_REGION -V -J -DjTRC+o1.5c/0.3c/+w6c/0.3c+h -C$CPT -I -F+
 convert -rotate 90 -quality 100 -density 300 -flatten -fuzz 1% -trim +repage $POSTSCRIPT6 ${POSTSCRIPT6::-3}.png
 
 convert -quality 100 -density 300 ${POSTSCRIPT5::-3}.png ${POSTSCRIPT6::-3}.png +append figures/Pozo_catchment_zoom_D_surfacet035c01_surfacet025c01.png
-convert -quality 100 -density 300 figures/Pozo_catchment_zoom_D_blockmean_blockmedian.png figures/Pozo_catchment_zoom_D_surfacet035c01_surfacet025c01.png -append figures/Pozo_catchment_zoom_D_blockmean_blockmedian_surfacet035c01_surfacet025c01.png
+convert -quality 100 -density 300 figures/Pozo_catchment_zoom_D_blockmean_blockmedian.png figures/Pozo_catchment_zoom_D_surfacet035c01_surfacet025c01.png -splice 0x25 -background "#ffffff" -append figures/Pozo_catchment_zoom_D_blockmean_blockmedian_surfacet035c01_surfacet025c01.png

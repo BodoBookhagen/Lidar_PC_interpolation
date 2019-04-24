@@ -87,4 +87,4 @@ gmt psbasemap -R -J -O -K -B+t"$TITLE"  --FONT_ANNOT_PRIMARY=9p -LjRB+c19:23N+f+
 gmt psscale -R$OVERVIEW_REGION -V -J -DjTRC+o1.5c/0.3c/+w6c/0.3c+h -C$CPT -I -F+gwhite+r1p+pthin,black -Bx1.0 -By+lMeter --FONT=10p --FONT_ANNOT_PRIMARY=10p -O -K >> $POSTSCRIPT4
 convert -rotate 90 -quality 100 -density 300 -flatten -fuzz 1% -trim +repage $POSTSCRIPT4 ${POSTSCRIPT4::-3}.png
 
-convert -quality 100 -density 300 ${POSTSCRIPT3::-3}.png ${POSTSCRIPT4::-3}.png -append figures/Pozo_catchment_zoom_D_blockmean_blockmedian.png
+convert -quality 100 -density 300 ${POSTSCRIPT3::-3}.png ${POSTSCRIPT4::-3}.png -splice 0x25 -background "#ffffff" -append figures/Pozo_catchment_zoom_D_blockmean_blockmedian.png
