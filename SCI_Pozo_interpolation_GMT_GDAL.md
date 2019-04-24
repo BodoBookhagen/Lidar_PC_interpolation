@@ -649,14 +649,14 @@ The DEM difference of pdal:Points2Grid of the Pozo catchment and the area of int
 # Plot with GMT5
 Below, we provide a simple [GMT](http:/gmt.soest.hawaii.edu/) Version 5 (GMT5) shell script to plot the DEM difference data. There are several GMT5 scripts for different purposes.
 
-|GMT5 Script and Link | Purpose | Output Map |
+|GMT5 Script and Link | Comments | Output Map |
 |:--- | --- | --- |
 [SCI_Pozo_interpolation_GMT5_plot_DEM_overview_zoom.sh](https://raw.githubusercontent.com/BodoBookhagen/Lidar_PC_interpolation/master/gmt5_map_scripts/SCI_Pozo_interpolation_GMT5_plot_DEM_overview_zoom.sh) | Plot Pozo overview DEM and zoom-in area | Figure \ref{DEM:overview} |
-[SCI_Pozo_interpolation_GMT5_plot_DEM_diff_blockmean_blockmedian.sh](https://raw.githubusercontent.com/BodoBookhagen/Lidar_PC_interpolation/master/gmt5_map_scripts/SCI_Pozo_interpolation_GMT5_plot_DEM_diff_blockmean_blockmedian.sh) | | Figures \ref{gmt:blockmean} and \ref{gmt:blockmedian} |
-[SCI_Pozo_interpolation_GMT5_plot_DEM_diff_surfacetension.sh](https://raw.githubusercontent.com/BodoBookhagen/Lidar_PC_interpolation/master/gmt5_map_scripts/SCI_Pozo_interpolation_GMT5_plot_DEM_diff_surfacetension.sh) | | Figure \ref{gmt:surfacetensions} |
-[SCI_Pozo_interpolation_GMT5_plot_DEM_diff_IDW.sh](https://raw.githubusercontent.com/BodoBookhagen/Lidar_PC_interpolation/master/gmt5_map_scripts/SCI_Pozo_interpolation_GMT5_plot_DEM_diff_IDW.sh) | | Figures \ref{gmt:gdalidw}, \ref{gmt:pdalidw}, \ref{gdalidw_p1s0123r1414}, \ref{gmt:gdalidw_p1s0123r2828}, \ref{gmt:gdalidw_p1s0123r070mr1414mr2828}, \ref{gdalidw_p1s0123r070mr1414m}, \ref{gmt:gdalidw_p1s0123}, \ref{gmt:gdalidw_p1s0_minus_s12} |
+[SCI_Pozo_interpolation_GMT5_plot_DEM_diff_blockmean_blockmedian.sh](https://raw.githubusercontent.com/BodoBookhagen/Lidar_PC_interpolation/master/gmt5_map_scripts/SCI_Pozo_interpolation_GMT5_plot_DEM_diff_blockmean_blockmedian.sh) | GMT:Blockmean and GMT:Blockmedian processing. Simple, but robust interpolation. | Figures \ref{gmt:blockmean}, \ref{gmt:blockmedian} |
+[SCI_Pozo_interpolation_GMT5_plot_DEM_diff_surfacetension.sh](https://raw.githubusercontent.com/BodoBookhagen/Lidar_PC_interpolation/master/gmt5_map_scripts/SCI_Pozo_interpolation_GMT5_plot_DEM_diff_surfacetension.sh) | Splines with tensions | Figure \ref{gmt:surfacetensions} |
+[SCI_Pozo_interpolation_GMT5_plot_DEM_diff_IDW.sh](https://raw.githubusercontent.com/BodoBookhagen/Lidar_PC_interpolation/master/gmt5_map_scripts/SCI_Pozo_interpolation_GMT5_plot_DEM_diff_IDW.sh) | IDW-based interpolation with various parameters.| Figures \ref{gmt:gdalidw}, \ref{gmt:gdalidw_p1s0123r1414}, \ref{gmt:gdalidw_p1s0123r2828}, \ref{gmt:gdalidw_p1s0123r070mr1414mr2828}, \ref{gdalidw_p1s0123r070mr1414m}, \ref{gmt:gdalidw_p1s0123}, \ref{gmt:gdalidw_p1s0_minus_s12}, \ref{gmt:pdalidw} |
 [SCI_Pozo_interpolation_GMT5_plot_DEM_diff_nearneighbor.sh](https://raw.githubusercontent.com/BodoBookhagen/Lidar_PC_interpolation/master/gmt5_map_scripts/SCI_Pozo_interpolation_GMT5_plot_DEM_diff_nearneighbor.sh) | | Figure *note done yet* |
-[SCI_Pozo_interpolation_GMT5_plot_DEM_diff_triangulation.sh](https://raw.githubusercontent.com/BodoBookhagen/Lidar_PC_interpolation/master/gmt5_map_scripts/SCI_Pozo_interpolation_GMT5_plot_DEM_diff_triangulation.sh) | | Figure \ref{gmt:triangulation} |
+[SCI_Pozo_interpolation_GMT5_plot_DEM_diff_triangulation.sh](https://raw.githubusercontent.com/BodoBookhagen/Lidar_PC_interpolation/master/gmt5_map_scripts/SCI_Pozo_interpolation_GMT5_plot_DEM_diff_triangulation.sh) | Delauny Triangulation | Figure \ref{gmt:triangulation} |
 
 
 As an example, the GMT5 script for plotting the DEM and overview is shown here:
